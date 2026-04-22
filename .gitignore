@@ -1,0 +1,23 @@
+# Course handouts and generated document files
+*.pdf
+*.ppt
+*.pptx
+*.doc
+*.docx
+*.xls
+*.xlsx
+
+# Local/editor clutter
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Dependency and build output, if added later
+node_modules/
+dist/
+build/
+.cache/
+
+# Local Codex marker/context files
+.codex

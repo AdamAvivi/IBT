@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documentary Sale Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">International Business Transactions</p>
+        <h1>Documentary Sale Simulator</h1>
+      </div>
+      <div class="step-meter" aria-live="polite">
+        <span id="stepNumber">1</span>
+        <span>of</span>
+        <span id="stepTotal">8</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel setup">
+        <h2>Deal Setup</h2>
+        <label>
+          Shipping term
+          <select id="shippingTerm">
+            <option value="CIF">CIF Athens (Incoterms 2020)</option>
+            <option value="FOB">FOB New York (Incoterms 2020)</option>
+            <option value="CFR">CFR Athens (Incoterms 2020)</option>
+            <option value="FCA">FCA Seller's Plant (Incoterms 2020)</option>
+            <option value="CIP">CIP Buyer Warehouse (Incoterms 2020)</option>
+          </select>
+        </label>
+
+        <label>
+          Payment method
+          <select id="paymentMethod">
+            <option value="lc">Letter of credit</option>
+            <option value="collection">Documentary collection</option>
+            <option value="open">Open account</option>
+            <option value="advance">Cash in advance</option>
+          </select>
+        </label>
+
+        <div class="button-row">
+          <button id="prevStep" type="button" title="Previous step">Back</button>
+          <button id="nextStep" type="button" title="Next step">Next</button>
+          <button id="reset" type="button" title="Restart simulation">Reset</button>
+        </div>
+
+        <div class="step-nav" aria-label="Transaction steps">
+          <h2>Transaction Steps</h2>
+          <ol id="stepList"></ol>
+        </div>
+      </section>
+
+      <section class="stage" aria-label="Transaction map">
+        <div class="stage-heading">
+          <h2>Transaction Map</h2>
+          <div class="legend" aria-label="Map legend">
+            <span><i class="legend-dot goods-dot"></i>Goods</span>
+            <span><i class="legend-dot docs-dot"></i>Documents</span>
+            <span><i class="legend-dot money-dot"></i>Money</span>
+          </div>
+        </div>
+
+        <div class="flow-map">
+          <section class="flow-track goods-track" aria-label="Goods route">
+            <div class="track-copy">
+              <h3>Goods</h3>
+              <p>Physical cargo moves from the seller to the carrier, then to the buyer.</p>
+            </div>
+            <div class="route">
+              <div class="route-line"></div>
+              <div class="route-node node-start">
+                <span class="actor-label">Seller</span>
+                <span id="sellerBadge" class="badge">Goods</span>
+              </div>
+              <div class="route-node node-middle">
+                <span class="actor-label">Carrier</span>
+                <span id="carrierBadge" class="badge muted">-</span>
+              </div>
+              <div class="route-node node-end">
+                <span class="actor-label">Buyer</span>
+                <span id="buyerBadge" class="badge muted">Waiting</span>
+              </div>
+              <div id="goodsMarker" class="marker goods">Goods</div>
+            </div>
+          </section>
+
+          <section id="docsTrack" class="flow-track docs-track" aria-label="Document route">
+            <div class="track-copy">
+              <h3>Documents</h3>
+              <p>The document packet starts only after the carrier issues the bill of lading.</p>
+            </div>
+            <div class="route">
+              <div class="route-line"></div>
+              <div id="docsNotice" class="route-notice">Documents not issued yet</div>
+              <div class="route-node node-start">
+                <span class="actor-label">Seller</span>
+              </div>
+              <div class="route-node node-quarter">
+                <span class="actor-label">Seller Bank</span>
+                <span id="sellerBankBadge" class="badge muted">-</span>
+              </div>
+              <div class="route-node node-three-quarter">
+                <span class="actor-label">Buyer Bank</span>
+                <span id="buyerBankBadge" class="badge muted">Credit</span>
+              </div>
+              <div class="route-node node-end">
+                <span class="actor-label">Buyer</span>
+              </div>
+              <div id="docsMarker" class="marker docs">Docs</div>
+            </div>
+          </section>
+
+          <section class="flow-track money-track" aria-label="Money route">
+            <div class="track-copy">
+              <h3>Money</h3>
+              <p>Payment starts on the buyer side and moves through the banking channel toward the seller.</p>
+            </div>
+            <div class="route">
+              <div class="route-line"></div>
+              <div class="route-node node-start">
+                <span class="actor-label">Seller</span>
+              </div>
+              <div class="route-node node-quarter">
+                <span class="actor-label">Seller Bank</span>
+              </div>
+              <div class="route-node node-three-quarter">
+                <span class="actor-label">Buyer Bank</span>
+              </div>
+              <div class="route-node node-end">
+                <span class="actor-label">Buyer</span>
+              </div>
+              <div id="moneyMarker" class="marker money">Money</div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="panel result">
+        <h2 id="stepTitle">Contract signed</h2>
+        <p id="stepDescription"></p>
+
+        <div class="status-grid">
+          <div>
+            <span class="label">Goods</span>
+            <strong id="goodsStatus"></strong>
+          </div>
+          <div>
+            <span class="label">Documents</span>
+            <strong id="docsStatus"></strong>
+          </div>
+          <div>
+            <span class="label">Money</span>
+            <strong id="moneyStatus"></strong>
+          </div>
+          <div>
+            <span class="label">Risk</span>
+            <strong id="riskStatus"></strong>
+          </div>
+        </div>
+
+        <h3>Consequence at this step</h3>
+        <p id="legalConsequence"></p>
+
+        <h3>Selected problem</h3>
+        <label>
+          Problem event
+          <select id="problemEvent">
+            <option value="none">No problem</option>
+            <option value="damage">Goods damaged at sea</option>
+            <option value="dirty">Dirty bill of lading</option>
+            <option value="discrepancy">Document discrepancy</option>
+            <option value="lateDocs">Goods arrive before documents</option>
+          </select>
+        </label>
+        <p id="problemAnalysis"></p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

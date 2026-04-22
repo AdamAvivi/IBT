@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Battle of the Forms Analyzer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <p class="eyebrow">International Business Transactions</p>
+      <h1>Battle of the Forms Analyzer</h1>
+    </header>
+
+    <main class="app-shell">
+      <aside class="left-panel">
+        <section class="panel">
+          <h2>Scenario</h2>
+          <label class="sidebar-label">
+            Load default facts
+            <select id="exampleSelect">
+              <option value="blank">Matched base deal</option>
+              <option value="forum">Forum scenario</option>
+              <option value="minor">M&M scenario</option>
+              <option value="warranty">Warranty scenario</option>
+              <option value="fullConflict">Many material conflicts</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="panel">
+          <h2>Terms Included</h2>
+          <div id="termToggles" class="toggle-list"></div>
+        </section>
+
+      </aside>
+
+      <section class="right-panel">
+        <section class="panel editor-panel">
+          <div class="section-title">
+            <h2>Editable Forms</h2>
+            <span id="issueCount"></span>
+          </div>
+          <div id="issueSummary" class="issue-summary"></div>
+
+          <div class="forms-table">
+            <div class="table-head">Term</div>
+            <div class="table-head">Buyer Form</div>
+            <div class="table-head">Seller Form</div>
+            <div class="table-head">Comparison</div>
+            <div class="table-head">Material</div>
+            <div id="termRows" class="term-rows"></div>
+          </div>
+        </section>
+
+      </section>
+
+      <section class="bottom-analysis" aria-label="Legal analysis">
+        <section class="panel facts-panel">
+          <h2>Facts</h2>
+          <label id="factBothMerchants" class="check"><input id="bothMerchants" type="checkbox" checked /> Both parties are merchants</label>
+          <label id="factPerformed" class="check"><input id="performed" type="checkbox" /> Parties performed after exchanging forms</label>
+          <label id="factStandardTerms" class="check"><input id="standardTerms" type="checkbox" checked /> Conflicting terms are standard boilerplate</label>
+          <label id="factPromptObjection" class="check"><input id="promptObjection" type="checkbox" /> Prompt objection to changed terms</label>
+          <label id="factConditional" class="check"><input id="conditional" type="checkbox" /> Acceptance expressly limited to its own terms</label>
+        </section>
+
+        <article class="result-card" id="resultCard">
+          <div class="result-header">
+            <h2 id="activeLawTitle">UCC Majority</h2>
+            <div class="law-tabs" aria-label="Choose law">
+              <button class="law-tab active" data-law="ucc" type="button">UCC</button>
+              <button class="law-tab" data-law="uccMinority" type="button">UCC Minority</button>
+              <button class="law-tab" data-law="cisg" type="button">CISG</button>
+              <button class="law-tab" data-law="unidroit" type="button">UNIDROIT</button>
+            </div>
+          </div>
+          <div class="answer-grid">
+            <div><span>Contract</span><strong id="activeContract"></strong></div>
+            <div><span>Terms</span><strong id="activeTermsShort"></strong></div>
+          </div>
+          <div class="result-body">
+            <section>
+              <h3>Reasoning</h3>
+              <ol id="activeSteps"></ol>
+            </section>
+            <section>
+              <h3>Contract Terms</h3>
+              <ul class="contract-list" id="activeContractTerms"></ul>
+            </section>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

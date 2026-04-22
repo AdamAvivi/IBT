@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Incoterms Risk Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <p class="eyebrow">International Business Transactions</p>
+      <h1>Incoterms Risk Calculator</h1>
+    </header>
+
+    <main class="layout">
+      <section class="controls">
+        <h2>Scenario</h2>
+        <label>
+          Transport
+          <select id="mode">
+            <option value="sea">Sea</option>
+            <option value="multi">Multimodal</option>
+            <option value="air">Air</option>
+          </select>
+        </label>
+        <label>
+          Incoterm
+          <select id="term"></select>
+        </label>
+        <label>
+          Named place
+          <input id="place" value="Athens" />
+        </label>
+      </section>
+
+      <section class="summary">
+        <div class="hero-line">
+          <div>
+            <span class="label">Selected term</span>
+            <h2 id="termTitle"></h2>
+          </div>
+          <div id="modeWarning" class="warning" role="status"></div>
+        </div>
+
+        <div class="route-card" aria-label="Shipment route">
+          <div class="route-labels">
+            <span>Seller</span>
+            <span>Export / Carrier</span>
+            <span>Main Carriage</span>
+            <span>Destination</span>
+            <span>Buyer</span>
+          </div>
+          <div class="route-track">
+            <div id="sellerCostBar" class="cost-bar"></div>
+            <span id="transferPoint" class="pin transfer" tabindex="0">
+              Legal handoff + risk
+              <span class="tooltip">Incoterms delivery means legal handoff, not necessarily arrival. It is where risk usually transfers; seller-paid costs may continue after this point.</span>
+            </span>
+          </div>
+          <div class="route-legend" aria-label="Route legend">
+            <span><i class="legend-seller"></i>Seller-paid costs</span>
+            <span><i class="legend-buyer"></i>Buyer-paid costs</span>
+            <span><i class="legend-risk"></i>Legal handoff and risk transfer</span>
+          </div>
+          <div class="route-caption">
+            <strong id="transferCaption"></strong>
+            <span id="costCaption"></span>
+            <span id="transportCaption"></span>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="fact">
+            <span class="label">Risk transfers</span>
+            <strong id="riskTransfer"></strong>
+          </div>
+          <div class="fact">
+            <span class="label">Seller pays</span>
+            <strong id="sellerPays"></strong>
+          </div>
+          <div class="fact">
+            <span class="label">Buyer pays</span>
+            <strong id="buyerPays"></strong>
+          </div>
+          <div class="fact">
+            <span class="label">Insurance</span>
+            <strong id="insurance"></strong>
+          </div>
+        </div>
+
+        <div class="event-panel">
+          <h3>Problem Event</h3>
+          <div class="event-options" role="radiogroup" aria-label="Problem event">
+            <button class="event-option active" data-event="none" type="button" role="radio" aria-checked="true">None</button>
+            <button class="event-option" data-event="lostBeforeCarrier" type="button" role="radio" aria-checked="false">Lost before carrier</button>
+            <button class="event-option" data-event="lostAtSea" type="button" role="radio" aria-checked="false">Damaged in transit</button>
+            <button class="event-option" data-event="importDelay" type="button" role="radio" aria-checked="false">Import delay</button>
+            <button class="event-option" data-event="insuranceClaim" type="button" role="radio" aria-checked="false">Insurance claim</button>
+          </div>
+          <h3>Event Result</h3>
+          <p id="eventResult"></p>
+        </div>
+      </section>
+
+      <section class="matrix">
+        <h2>Responsibility Matrix</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Seller</th>
+              <th>Buyer</th>
+            </tr>
+          </thead>
+          <tbody id="matrixBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

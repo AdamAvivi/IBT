@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Currency Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <p class="eyebrow">International Business Transactions</p>
+      <h1>Currency Tracker</h1>
+      <p class="dek">Track how many units of each selected currency equal a fixed USD amount over a weekly date range.</p>
+      <p class="data-note">Graph and spreadsheet values use historical exchange-rate data from fxapi.app.</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel controls">
+        <h2>Tracker Setup</h2>
+
+        <label>
+          USD amount
+          <input id="usdAmount" type="number" min="1" step="1" value="100" />
+        </label>
+
+        <div class="date-grid">
+          <label>
+            Start date
+            <input id="startDate" type="date" min="2026-01-01" max="2026-04-21" value="2026-01-01" />
+          </label>
+
+          <label>
+            End date
+            <input id="endDate" type="date" min="2026-01-01" max="2026-04-21" value="2026-04-02" />
+          </label>
+        </div>
+
+        <div class="button-row">
+          <button id="selectAll" type="button">Select All</button>
+          <button id="clearAll" type="button">Clear</button>
+          <button id="reset" type="button">Reset</button>
+        </div>
+
+        <div class="currency-heading">
+          <h2>Currencies</h2>
+          <span id="selectedCount"></span>
+        </div>
+        <div id="currencyList" class="currency-list" aria-label="Currency choices"></div>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="panel-title">
+          <div>
+            <span class="label">Weekly change</span>
+            <h2>Selected Currency History</h2>
+          </div>
+          <button id="downloadCsv" type="button">Download CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead id="historyHead"></thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel chart-panel">
+        <div class="panel-title">
+          <div>
+            <span class="label">Weekly history</span>
+            <h2 id="rangeTitle"></h2>
+          </div>
+          <div class="chart-mode" role="radiogroup" aria-label="Graph mode">
+            <button id="valueMode" type="button" data-mode="value" aria-pressed="false">Value vs USD</button>
+            <button id="changeMode" class="active" type="button" data-mode="change" aria-pressed="true">Rate of Change</button>
+          </div>
+        </div>
+
+        <p class="chart-note">Click a currency in the graph key to hide or show it in the graph.</p>
+        <div id="chart" class="chart" role="img" aria-label="Currency history line chart"></div>
+
+        <div class="summary-grid">
+          <div>
+            <span class="label">Best weekly move</span>
+            <strong id="bestMove"></strong>
+          </div>
+          <div>
+            <span class="label">Largest weekly drop</span>
+            <strong id="worstMove"></strong>
+          </div>
+          <div>
+            <span class="label">Date points</span>
+            <strong id="pointCount"></strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
