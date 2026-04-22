@@ -1,5 +1,6 @@
 const startOfTracker = new Date("2026-01-01T00:00:00");
-const endOfTracker = new Date("2026-04-21T00:00:00");
+const today = new Date();
+const endOfTracker = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 const dayMs = 24 * 60 * 60 * 1000;
 const apiBase = "https://fxapi.app/api";
 const historyCache = new Map();
@@ -154,6 +155,20 @@ function buildCurrencyList() {
     label.append(checkbox, name, swatch);
     el.currencyList.append(label);
   });
+}
+
+function syncDateBounds() {
+  const maxDate = dateKey(endOfTracker);
+  el.startDate.max = maxDate;
+  el.endDate.max = maxDate;
+
+  if (parseDate(el.startDate.value) > endOfTracker) {
+    el.startDate.value = maxDate;
+  }
+
+  if (parseDate(el.endDate.value) > endOfTracker) {
+    el.endDate.value = maxDate;
+  }
 }
 
 function normalizeRates(payload) {
@@ -504,6 +519,7 @@ function downloadCsv() {
 }
 
 buildCurrencyList();
+syncDateBounds();
 
 [el.usdAmount, el.startDate, el.endDate].forEach((input) => {
   input.addEventListener("input", render);
